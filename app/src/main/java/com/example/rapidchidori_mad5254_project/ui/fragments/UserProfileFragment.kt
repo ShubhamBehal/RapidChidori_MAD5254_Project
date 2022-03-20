@@ -24,9 +24,13 @@ import com.example.rapidchidori_mad5254_project.databinding.FragmentUserProfileB
 import com.example.rapidchidori_mad5254_project.helper.Constants
 import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_DISPLAY_PICTURE
 import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_FULL_NAME
+import com.example.rapidchidori_mad5254_project.helper.Constants.CONNECTION_TYPE
+import com.example.rapidchidori_mad5254_project.helper.Constants.CONNECTION_TYPE_FOLLOWER
+import com.example.rapidchidori_mad5254_project.helper.Constants.CONNECTION_TYPE_FOLLOWING
 import com.example.rapidchidori_mad5254_project.helper.Constants.EMAIL
 import com.example.rapidchidori_mad5254_project.helper.Constants.FILE_DATA
 import com.example.rapidchidori_mad5254_project.helper.Constants.FRAGMENT_TYPE
+import com.example.rapidchidori_mad5254_project.helper.Constants.FRAGMENT_TYPE_CONNECTION
 import com.example.rapidchidori_mad5254_project.helper.Constants.FRAGMENT_TYPE_EDIT_PROFILE
 import com.example.rapidchidori_mad5254_project.helper.Constants.FRAGMENT_TYPE_OPEN_FILE
 import com.example.rapidchidori_mad5254_project.helper.Constants.FRAGMENT_TYPE_PROFILE_PICTURE
@@ -79,19 +83,31 @@ class UserProfileFragment : Fragment(), View.OnClickListener, UploadsClickListen
                 false
             )
         }
+        showLoader()
+        viewModel.getUserInfoFromFirebase()
     }
 
     private fun setUpListeners() {
         binding.btnEditProfile.setOnClickListener(this)
         binding.civDisplayPicture.setOnClickListener(this)
         binding.ibMenu.setOnClickListener(this)
+        binding.followersView.setOnClickListener(this)
+        binding.followingsView.setOnClickListener(this)
 
-        viewModel.getUserInfoFromFirebase().observe(viewLifecycleOwner) {
+        viewModel.getUserInfoLiveData().observe(viewLifecycleOwner) {
             setDataToViews(it)
         }
 
-        viewModel.getUploads().observe(viewLifecycleOwner) {
+        viewModel.getUploadsLiveData().observe(viewLifecycleOwner) {
             populateUploadList(it)
+        }
+
+        viewModel.getFollowingCountLiveData().observe(viewLifecycleOwner) {
+            updateFollowingCount(it)
+        }
+
+        viewModel.getFollowersCountLiveData().observe(viewLifecycleOwner) {
+            updateFollowersCount(it)
         }
 
         viewModel.onDataRemoved().observe(viewLifecycleOwner) {
@@ -108,6 +124,16 @@ class UserProfileFragment : Fragment(), View.OnClickListener, UploadsClickListen
                 requireActivity().finish()
             }
         }
+    }
+
+    private fun updateFollowersCount(count: Int) {
+        binding.tvFollowersCount.text = count.toString()
+        hideLoader()
+    }
+
+    private fun updateFollowingCount(count: Int) {
+        binding.tvFollowingCount.text = count.toString()
+        viewModel.getFollowersCount()
     }
 
     private fun hideLoader() {
@@ -130,6 +156,7 @@ class UserProfileFragment : Fragment(), View.OnClickListener, UploadsClickListen
                 .load(R.drawable.placeholder)
                 .into(binding.civDisplayPicture)
         }
+        viewModel.getUploads()
     }
 
     private fun populateUploadList(data: List<UploadInfo>) {
@@ -142,6 +169,7 @@ class UserProfileFragment : Fragment(), View.OnClickListener, UploadsClickListen
             binding.rvUploads.visibility = View.VISIBLE
             mAdapter.setUploadsData(data)
         }
+        viewModel.getFollowingCount()
     }
 
     override fun onClick(view: View?) {
@@ -155,7 +183,24 @@ class UserProfileFragment : Fragment(), View.OnClickListener, UploadsClickListen
             binding.ibMenu.id -> {
                 openMenu()
             }
+            binding.followersView.id -> {
+                if (Integer.parseInt(binding.tvFollowersCount.text.toString()) > 0) {
+                    openConnectionsScreen(CONNECTION_TYPE_FOLLOWER)
+                }
+            }
+            binding.followingsView.id -> {
+                if (Integer.parseInt(binding.tvFollowingCount.text.toString()) > 0) {
+                    openConnectionsScreen(CONNECTION_TYPE_FOLLOWING)
+                }
+            }
         }
+    }
+
+    private fun openConnectionsScreen(connectionType: String) {
+        val i = Intent(requireActivity(), SecondaryActivity::class.java)
+        i.putExtra(CONNECTION_TYPE, connectionType)
+        i.putExtra(FRAGMENT_TYPE, FRAGMENT_TYPE_CONNECTION)
+        startActivity(i)
     }
 
     private fun openMenu() {
@@ -243,11 +288,11 @@ class UserProfileFragment : Fragment(), View.OnClickListener, UploadsClickListen
         startActivity(i)
     }
 
-    override fun removeItem(fileId: String) {
+    override fun removeItem(fileId: Double) {
         showAlertDialog(fileId)
     }
 
-    private fun showAlertDialog(fileId: String) {
+    private fun showAlertDialog(fileId: Double) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
         builder.setTitle(getString(R.string.are_you_sure))
             .setCancelable(false)
