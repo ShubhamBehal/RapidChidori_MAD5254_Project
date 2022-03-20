@@ -76,4 +76,9 @@
     <string name="mail_subject">This was sent from App</string>
     <string name="extra_text_mail">\"Type your queries here...!!! We\'ll get back to you as soon as we can...!!!THANKS !!! \"</string>
     <string name="email_via">Send Email Via</string>
+    <string name="share_with_friends">Share with friends</string>
+    <string name="rate_us">Rate us</string>
+    <string name="help">Help</string>
+    <string name="write_to_us">Write to us</string>
+    <string name="logout">Logout</string>
 </resources>

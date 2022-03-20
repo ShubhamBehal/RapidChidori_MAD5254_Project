@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_50"
+        android:fontFamily="sans-serif-black"
         android:text="@string/login_to_softnotes"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_22"
@@ -43,6 +44,8 @@
 
     <include
         android:id="@+id/cl_on_boarding_bottom_layout"
-        layout="@layout/on_boarding_bottom_view" />
+        layout="@layout/on_boarding_bottom_view"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

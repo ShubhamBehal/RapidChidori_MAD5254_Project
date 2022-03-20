@@ -1,6 +1,7 @@
 package com.example.rapidchidori_mad5254_project.ui.activities
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
@@ -28,4 +29,7 @@ class DashBoardActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         setupWithNavController(binding.bottomNavView, navController)
     }
+
+
+
 }

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.41" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_sixty"
@@ -35,11 +35,13 @@
         android:id="@+id/tv_welcome_text"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/comfortaa"
         android:gravity="center"
         android:lineSpacingExtra="@dimen/dp_14"
         android:text="@string/welcome_text"
         android:textColor="@color/primary1"
         android:textSize="@dimen/sp_22"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/guideline_sixty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +51,7 @@
         android:id="@+id/btn_sign_up"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
         android:paddingVertical="@dimen/dp_12"
         android:text="@string/signup"
         android:textAllCaps="false"
@@ -66,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_6"
         android:background="@android:color/transparent"
+        android:fontFamily="sans-serif-black"
         android:text="@string/login"
         android:textAllCaps="false"
         android:textSize="@dimen/sp_14"

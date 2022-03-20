@@ -2,7 +2,9 @@ package com.example.rapidchidori_mad5254_project.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rapidchidori_mad5254_project.R
 import com.example.rapidchidori_mad5254_project.databinding.ActivityLoginSignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,4 +38,5 @@ class LoginSignUpActivity : AppCompatActivity() {
     private fun configViews() {
         supportActionBar?.hide()
     }
+
 }

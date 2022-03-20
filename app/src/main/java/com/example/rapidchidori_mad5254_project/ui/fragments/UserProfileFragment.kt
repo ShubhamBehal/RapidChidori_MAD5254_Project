@@ -9,10 +9,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -290,5 +287,10 @@ class UserProfileFragment : Fragment(), View.OnClickListener, UploadsClickListen
             setCanceledOnTouchOutside(false)
             show()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.user_profile_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

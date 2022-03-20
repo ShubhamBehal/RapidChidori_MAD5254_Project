@@ -160,7 +160,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_6"
-        android:background="@color/edit_button_background"
+        android:background="@drawable/outline_button"
         android:gravity="center"
         android:padding="@dimen/dp_10"
         android:text="@string/edit_your_profile"

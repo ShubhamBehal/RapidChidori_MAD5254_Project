@@ -1,6 +1,7 @@
 package com.example.rapidchidori_mad5254_project.ui.activities
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.example.rapidchidori_mad5254_project.R
@@ -55,4 +56,6 @@ class SecondaryActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

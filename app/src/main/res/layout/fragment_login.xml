@@ -18,6 +18,7 @@
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_50"
+        android:fontFamily="sans-serif-black"
         android:text="@string/login_to_softnotes"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_22"
