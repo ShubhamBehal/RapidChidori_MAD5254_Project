@@ -30,6 +30,4 @@ class DashBoardActivity : AppCompatActivity() {
         setupWithNavController(binding.bottomNavView, navController)
     }
 
-
-
 }

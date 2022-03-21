@@ -159,7 +159,7 @@
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_10"
-        android:background="@color/edit_button_background"
+        android:background="@drawable/outline_button"
         android:gravity="center"
         android:padding="@dimen/dp_10"
         android:text="@string/edit_your_profile"
