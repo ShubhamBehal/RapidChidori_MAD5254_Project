@@ -33,30 +33,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_app_name"
+        android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_0"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
         android:elevation="@dimen/dp_4"
         android:paddingVertical="@dimen/dp_6"
-        android:text="@string/softnotes"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_22"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="@id/toolbar_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbar_view" />
+        app:layout_constraintTop_toTopOf="@id/toolbar_view"
+        tools:text="Full Name" />
 
-    <ImageButton
-        android:id="@+id/ib_menu"
-        android:layout_width="@dimen/dp_0"
+
+    <TextView
+        android:id="@+id/btn_follow"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:background="@null"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:background="@color/primary4"
         android:elevation="@dimen/dp_4"
-        android:importantForAccessibility="no"
-        android:src="@drawable/ic_more"
+        android:paddingHorizontal="@dimen/dp_40"
+        android:paddingVertical="@dimen/dp_8"
+        android:text="@string/follow"
+        android:textColor="@color/primary1"
+        android:textSize="@dimen/sp_14"
         app:layout_constraintBottom_toBottomOf="@id/toolbar_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/toolbar_view" />
@@ -72,31 +76,14 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar_view" />
 
     <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_6"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/btn_edit_profile"
-        app:layout_constraintEnd_toStartOf="@id/guideline_one"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btn_edit_profile"
-        tools:text="Shubham Behal" />
-
-    <TextView
         android:id="@+id/tv_followers_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_2"
         android:gravity="center"
         android:text="@string/zero"
-        android:textSize="@dimen/sp_30"
+        android:textSize="@dimen/sp_22"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tv_followers_txt"
         app:layout_constraintEnd_toStartOf="@id/guideline_two"
         app:layout_constraintStart_toEndOf="@id/guideline_one"
         app:layout_constraintTop_toTopOf="@id/civ_display_picture" />
@@ -106,15 +93,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_8"
         android:gravity="center"
         android:text="@string/followers"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_16"
-        app:layout_constraintBottom_toBottomOf="@id/civ_display_picture"
         app:layout_constraintEnd_toStartOf="@id/guideline_two"
         app:layout_constraintStart_toEndOf="@id/guideline_one"
-        app:layout_constraintTop_toBottomOf="@id/tv_followers_count"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/tv_followers_count" />
 
     <TextView
         android:id="@+id/tv_following_count"
@@ -123,9 +109,8 @@
         android:layout_marginHorizontal="@dimen/dp_2"
         android:gravity="center"
         android:text="@string/zero"
-        android:textSize="@dimen/sp_30"
+        android:textSize="@dimen/sp_22"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tv_following_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_two"
         app:layout_constraintTop_toTopOf="@id/civ_display_picture" />
@@ -135,11 +120,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_8"
         android:gravity="center"
         android:text="@string/following"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_16"
-        app:layout_constraintBottom_toBottomOf="@id/civ_display_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_two"
         app:layout_constraintTop_toBottomOf="@id/tv_following_count" />
@@ -148,37 +133,169 @@
         android:id="@+id/separator_vertical"
         android:layout_width="@dimen/dp_1"
         android:layout_height="@dimen/dp_0"
+        android:layout_marginVertical="@dimen/dp_6"
         android:background="@color/shadow"
         app:layout_constraintBottom_toBottomOf="@id/tv_followers_txt"
         app:layout_constraintEnd_toEndOf="@id/guideline_two"
         app:layout_constraintStart_toStartOf="@id/guideline_two"
-        app:layout_constraintTop_toTopOf="@id/civ_display_picture" />
-
-    <TextView
-        android:id="@+id/btn_edit_profile"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_10"
-        android:background="@color/edit_button_background"
-        android:gravity="center"
-        android:padding="@dimen/dp_10"
-        android:text="@string/edit_your_profile"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline_one"
-        app:layout_constraintTop_toBottomOf="@id/civ_display_picture" />
+        app:layout_constraintTop_toTopOf="@id/tv_followers_count" />
 
     <View
         android:id="@+id/separator_horizontal"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_1"
         android:layout_marginHorizontal="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@color/shadow"
+        app:layout_constraintEnd_toEndOf="@id/tv_following_txt"
+        app:layout_constraintStart_toStartOf="@id/tv_followers_txt"
+        app:layout_constraintTop_toBottomOf="@id/separator_vertical" />
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_4"
         android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_12"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/guideline_one"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/civ_display_picture"
+        tools:text="Shubham Behal" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:gravity="center"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/sp_10"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@id/tv_name"
+        app:layout_constraintStart_toStartOf="@id/tv_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        tools:text="( abc@domain.com )" />
+
+    <TextView
+        android:id="@+id/tv_dob_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="@string/date_of_birth"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/guideline_one"
+        app:layout_constraintTop_toBottomOf="@id/separator_horizontal" />
+
+    <TextView
+        android:id="@+id/tv_dob_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/sp_12"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@id/tv_dob_txt"
+        app:layout_constraintStart_toEndOf="@id/tv_dob_txt"
+        app:layout_constraintTop_toTopOf="@id/tv_dob_txt"
+        tools:text="@string/dob_default" />
+
+    <TextView
+        android:id="@+id/tv_gender_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_2"
+        android:text="@string/gender_"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/guideline_one"
+        app:layout_constraintTop_toBottomOf="@id/tv_dob_txt" />
+
+    <TextView
+        android:id="@+id/tv_gender_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/sp_12"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@id/tv_gender_txt"
+        app:layout_constraintStart_toEndOf="@id/tv_gender_txt"
+        app:layout_constraintTop_toTopOf="@id/tv_gender_txt"
+        tools:text="Male" />
+
+    <TextView
+        android:id="@+id/tv_college_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_2"
+        android:text="@string/college"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/guideline_one"
+        app:layout_constraintTop_toBottomOf="@id/tv_gender_txt" />
+
+    <TextView
+        android:id="@+id/tv_college_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/sp_12"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@id/tv_college_txt"
+        app:layout_constraintStart_toEndOf="@id/tv_college_txt"
+        app:layout_constraintTop_toTopOf="@id/tv_college_txt"
+        tools:text="Lambton College" />
+
+    <TextView
+        android:id="@+id/tv_phone_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_2"
+        android:text="@string/phone_number_"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/guideline_one"
+        app:layout_constraintTop_toBottomOf="@id/tv_college_txt" />
+
+    <TextView
+        android:id="@+id/tv_phone_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/sp_12"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@id/tv_phone_txt"
+        app:layout_constraintStart_toEndOf="@id/tv_phone_txt"
+        app:layout_constraintTop_toTopOf="@id/tv_phone_txt"
+        tools:text="6478704775" />
+
+    <View
+        android:id="@+id/separator_big"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_8"
         android:background="@color/shadow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_edit_profile" />
+        app:layout_constraintTop_toBottomOf="@id/tv_phone_value" />
+
 
     <TextView
         android:id="@+id/tv_uploads_head"
@@ -192,7 +309,7 @@
         android:textSize="@dimen/sp_22"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/separator_horizontal" />
+        app:layout_constraintTop_toBottomOf="@id/separator_big" />
 
     <TextView
         android:id="@+id/tv_uploads_count"
@@ -227,7 +344,8 @@
         android:layout_height="@dimen/dp_0"
         android:layout_margin="@dimen/dp_10"
         android:gravity="center"
-        android:text="@string/no_uploads"
+        android:lineSpacingExtra="@dimen/dp_4"
+        android:text="@string/no_uploads_other"
         android:textSize="@dimen/sp_20"
         android:textStyle="italic"
         android:typeface="serif"

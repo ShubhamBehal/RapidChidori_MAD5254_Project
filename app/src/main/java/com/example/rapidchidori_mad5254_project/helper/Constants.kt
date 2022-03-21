@@ -21,6 +21,7 @@ object Constants {
     const val USER_INFO_TABLE_NAME = "UserInfo"
     const val COLUMN_DISPLAY_PICTURE = "displayPicture"
     const val COLUMN_FULL_NAME = "fullName"
+    const val COLUMN_FULL_NAME_LOWER_CASE = "fullNameLowerCase"
     const val COLUMN_GENDER = "gender"
     const val COLUMN_EMAIL = "email"
     const val COLUMN_DOB = "dateOfBirth"
@@ -33,6 +34,12 @@ object Constants {
     const val FILE_TYPE = "fileType"
     const val TITLE = "title"
     const val URL = "url"
+
+    const val CONNECTION_INFO_TABLE_NAME = "ConnectionInfo"
+    const val C_ID = "cID"
+    const val FOLLOWER_ID = "followerID"
+    const val FOLLOWING_ID = "followingID"
+
 
     const val IMAGE_TYPE = "image/*"
 
@@ -54,4 +61,5 @@ object Constants {
     const val FRAGMENT_TYPE_EDIT_PROFILE = "editProfile"
     const val FRAGMENT_TYPE_PROFILE_PICTURE = "profilePicture"
     const val FRAGMENT_TYPE_OPEN_FILE = "openFile"
+    const val FRAGMENT_TYPE_OTHER_PROFILE = "otherProfle"
 }

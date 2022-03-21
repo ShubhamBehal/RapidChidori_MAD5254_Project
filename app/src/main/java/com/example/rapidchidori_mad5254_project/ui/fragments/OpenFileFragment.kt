@@ -47,7 +47,7 @@ class OpenFileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun configViews() {
-        data = arguments?.getParcelable<UploadInfo>(FILE_DATA)
+        data = arguments?.getParcelable(FILE_DATA)
         binding.tvFileName.apply {
             text = data?.title
             typeface = Typeface.createFromAsset(requireActivity().assets, Constants.FONT_NAME)
@@ -95,7 +95,7 @@ class OpenFileFragment : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             binding.ibBack.id -> {
-                requireActivity().finish()
+                requireActivity().onBackPressed()
             }
             binding.ibDownload.id -> {
                 startDownload()

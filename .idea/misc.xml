@@ -7,15 +7,9 @@
         <entry key="app/src/main/res/drawable/bottom_nav_colors.xml" value="0.147" />
         <entry key="app/src/main/res/drawable/button_background_round_corners.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/button_round_edges_background.xml" value="0.156" />
-        <entry key="app/src/main/res/drawable/ic_baseline_help_outline_24.xml" value="0.157" />
-        <entry key="app/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.157" />
-        <entry key="app/src/main/res/drawable/ic_baseline_mobile_friendly_24.xml" value="0.157" />
-        <entry key="app/src/main/res/drawable/ic_baseline_rate_review_24.xml" value="0.157" />
-        <entry key="app/src/main/res/drawable/ic_baseline_star_rate_24.xml" value="0.157" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.147" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1235" />
         <entry key="app/src/main/res/drawable/loading_dialog_bg.xml" value="0.147" />
-        <entry key="app/src/main/res/drawable/outline_button.xml" value="0.2295" />
         <entry key="app/src/main/res/drawable/search_background.xml" value="0.147" />
         <entry key="app/src/main/res/drawable/shadow.xml" value="0.147" />
         <entry key="app/src/main/res/font/font_family.xml" value="0.2717948717948718" />
@@ -28,13 +22,15 @@
         <entry key="app/src/main/res/layout/fragment_a.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_b.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_c.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_change_password.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_entry.xml" value="0.19610507246376813" />
-        <entry key="app/src/main/res/layout/fragment_forgot_password.xml" value="0.21" />
+        <entry key="app/src/main/res/layout/fragment_forgot_password.xml" value="0.1125" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.19610507246376813" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_open_file.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_profile_picture.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_open_file.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_others_profile.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_profile_picture.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_single_question.xml" value="0.19610507246376813" />
@@ -51,7 +47,7 @@
         <entry key="app/src/main/res/layout/wall_uploads_child_view.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.24583333333333332" />
-        <entry key="app/src/main/res/menu/user_profile_menu.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/user_profile_menu.xml" value="0.23148148148148148" />
       </map>
     </option>
   </component>

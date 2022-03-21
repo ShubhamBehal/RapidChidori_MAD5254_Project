@@ -2,6 +2,7 @@ package com.example.rapidchidori_mad5254_project.data.repo
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import com.example.rapidchidori_mad5254_project.R
 import com.example.rapidchidori_mad5254_project.data.models.request.UserDetailInfo
 import com.example.rapidchidori_mad5254_project.data.models.response.UserInfo
 import com.example.rapidchidori_mad5254_project.helper.Constants
@@ -10,12 +11,17 @@ import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_DISPLAY_
 import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_DOB
 import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_EMAIL
 import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_FULL_NAME
+import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_FULL_NAME_LOWER_CASE
 import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_GENDER
 import com.example.rapidchidori_mad5254_project.helper.Constants.COLUMN_PHONE
+import com.example.rapidchidori_mad5254_project.helper.Constants.USER_ID
 import com.example.rapidchidori_mad5254_project.helper.Constants.USER_INFO_TABLE_NAME
 import com.example.rapidchidori_mad5254_project.helper.SingleLiveEvent
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -40,6 +46,8 @@ class UserInfoRepo @Inject constructor() {
     private val exceptionInfo: SingleLiveEvent<String> = SingleLiveEvent()
     private val displayPictureURL: MutableLiveData<String> = MutableLiveData()
     private val logoutSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    private val profiles: SingleLiveEvent<List<UserInfo>> = SingleLiveEvent()
+    private val passUpdateLiveData: SingleLiveEvent<Int> = SingleLiveEvent()
 
     fun registerUser(userDetail: UserDetailInfo) {
         auth.createUserWithEmailAndPassword(userDetail.email!!, userDetail.password!!)
@@ -48,10 +56,13 @@ class UserInfoRepo @Inject constructor() {
                 if (it.isSuccessful) {
                     val user = auth.currentUser
                     val currentUserDb = databaseReference.child(user!!.uid)
+                    currentUserDb.child(USER_ID).setValue(user.uid)
                     currentUserDb.child(COLUMN_FULL_NAME)
                         .setValue(userDetail.firstName + " " + userDetail.lastName)
                     currentUserDb.child(COLUMN_EMAIL)
-                        .setValue(userDetail.email)
+                        .setValue(userDetail.email!!.lowercase())
+                    currentUserDb.child(COLUMN_FULL_NAME_LOWER_CASE)
+                        .setValue((userDetail.firstName + " " + userDetail.lastName).lowercase())
                 } else {
                     registerException.value = it.exception?.message
                 }
@@ -84,7 +95,7 @@ class UserInfoRepo @Inject constructor() {
 
     fun doLogin(email: String, password: String) {
         auth.signInWithEmailAndPassword(
-            email, password
+            email.lowercase(), password
         ).addOnCompleteListener {
             isLoginSuccess.value = it.isSuccessful
             if (!it.isSuccessful) {
@@ -110,6 +121,7 @@ class UserInfoRepo @Inject constructor() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val info = UserInfo()
+                    info.userID = snapshot.child(USER_ID).value.toString()
                     info.displayPicture = snapshot.child(COLUMN_DISPLAY_PICTURE).value.toString()
                     info.fullName = snapshot.child(COLUMN_FULL_NAME).value.toString()
                     info.gender = snapshot.child(COLUMN_GENDER).value.toString()
@@ -132,8 +144,10 @@ class UserInfoRepo @Inject constructor() {
         val user = auth.currentUser
         val fileDb =
             databaseReference.child(user!!.uid)
+        fileDb.child(USER_ID).setValue(user.uid)
         fileDb.child(COLUMN_DISPLAY_PICTURE).setValue(info.displayPicture)
         fileDb.child(COLUMN_FULL_NAME).setValue(info.fullName)
+        fileDb.child(COLUMN_FULL_NAME_LOWER_CASE).setValue(info.fullName.lowercase())
         fileDb.child(COLUMN_GENDER).setValue(info.gender)
         fileDb.child(COLUMN_DOB).setValue(info.dob)
         fileDb.child(COLUMN_COLLEGE).setValue(info.college)
@@ -179,5 +193,61 @@ class UserInfoRepo @Inject constructor() {
 
     fun isLogoutSuccess(): SingleLiveEvent<Boolean> {
         return logoutSuccess
+    }
+
+    fun getProfiles(input: String) {
+        val user = auth.currentUser
+        FirebaseDatabase.getInstance().getReference(USER_INFO_TABLE_NAME)
+            .orderByChild(COLUMN_FULL_NAME_LOWER_CASE)
+            .startAt(input.lowercase()).endAt((input + "\uf8ff").lowercase())
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val profilesList = mutableListOf<UserInfo>()
+                    if (snapshot.exists()) {
+                        for (child in snapshot.children) {
+                            val userInfo = child.getValue(UserInfo::class.java)
+                            if (userInfo?.email != user?.email) {
+                                userInfo?.let { profilesList.add(it) }
+                            }
+                        }
+                    }
+                    Timer().schedule(Constants.DELAY_2_SEC) {
+                        profiles.postValue(profilesList)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    //no op
+                }
+            })
+    }
+
+    fun getProfilesLiveData(): SingleLiveEvent<List<UserInfo>> {
+        return profiles
+    }
+
+    fun changePassword(email: String?, oldPass: String, newPass: String) {
+        val user: FirebaseUser = auth.currentUser!!
+        val credential: AuthCredential = EmailAuthProvider
+            .getCredential(email!!, oldPass)
+        user.reauthenticate(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    user.updatePassword(newPass)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                passUpdateLiveData.value = R.string.password_updated_success
+                            } else {
+                                passUpdateLiveData.value = R.string.password_updated_error
+                            }
+                        }
+                } else {
+                    passUpdateLiveData.value = R.string.password_updated_error_login
+                }
+            }
+    }
+
+    fun getPassUpdateLiveData(): SingleLiveEvent<Int> {
+        return passUpdateLiveData
     }
 }

@@ -3,29 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/share_with_friends"
-        android:icon="@drawable/ic_baseline_mobile_friendly_24"
         android:title="@string/share_with_friends"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
     <item
         android:id="@+id/rate_us"
-        android:icon="@drawable/ic_baseline_star_rate_24"
         android:title="@string/rate_us"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/help"
-        android:icon="@drawable/ic_baseline_help_outline_24"
         android:title="@string/help"
         app:showAsAction="never" />
     <item
         android:id="@+id/write_to_us"
         android:title="@string/write_to_us"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_baseline_rate_review_24"
-        />
+        app:showAsAction="never" />
     <item
         android:id="@+id/logout"
         android:title="@string/logout"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_baseline_logout_24"/>
+        app:showAsAction="never" />
 </menu>
