@@ -162,6 +162,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 )
             )
 
+
             btnPositive.setOnClickListener {
                 val i = view.findViewById<EditText>(R.id.et_title).text.toString().trim()
                 if (i == " ") {
