@@ -99,10 +99,11 @@
         android:layout_marginBottom="@dimen/dp_16"
         android:importantForAccessibility="no"
         android:src="@drawable/ic_add"
-        app:backgroundTint="@color/primary2"
+        app:backgroundTint="@color/colorGradientCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:pressedTranslationZ="@dimen/dp_12"
-        app:tint="@color/white" />
+        app:tint="@color/white"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
