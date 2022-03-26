@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DashBoardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashBoardBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashBoardBinding.inflate(layoutInflater)
