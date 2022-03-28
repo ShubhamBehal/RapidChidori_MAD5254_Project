@@ -17,7 +17,6 @@ object Constants {
     const val EMAIL = " shubh.behal76@gmail.com"
     const val INTENT_TYPE_MAIL = "message/rfc822"
 
-
     const val USER_INFO_TABLE_NAME = "UserInfo"
     const val COLUMN_DISPLAY_PICTURE = "displayPicture"
     const val COLUMN_FULL_NAME = "fullName"
@@ -34,6 +33,7 @@ object Constants {
     const val FILE_TYPE = "fileType"
     const val TITLE = "title"
     const val URL = "url"
+    const val FCM_TOKEN = "token"
 
     const val CONNECTION_INFO_TABLE_NAME = "ConnectionInfo"
     const val C_ID = "cID"
@@ -61,5 +61,23 @@ object Constants {
     const val FRAGMENT_TYPE_EDIT_PROFILE = "editProfile"
     const val FRAGMENT_TYPE_PROFILE_PICTURE = "profilePicture"
     const val FRAGMENT_TYPE_OPEN_FILE = "openFile"
-    const val FRAGMENT_TYPE_OTHER_PROFILE = "otherProfle"
+    const val FRAGMENT_TYPE_OTHER_PROFILE = "otherProfile"
+    const val FRAGMENT_TYPE_CONNECTION = "connection"
+
+    const val CONNECTION_TYPE = "connectionType"
+    const val CONNECTION_TYPE_FOLLOWER = "Followers"
+    const val CONNECTION_TYPE_FOLLOWING = "Following"
+
+    const val CHANNEL_ID = "notificationChannel"
+    const val NOTIFICATION_BASE_URL = "https://fcm.googleapis.com/"
+
+    const val CONNECTION_UPDATE = "Connection Updates"
+    const val FOLLOW_MSG = " has just followed you"
+
+    const val CONNECTION_ACTIVITY = "Connection Activities"
+    const val IS_FROM_NOTIFICATION = "isFromNotification"
+
+    const val NOTIFICATION_TITLE = "title"
+    const val NOTIFICATION_MSG = "message"
+    const val NOTIFICATION_ID = "uId"
 }

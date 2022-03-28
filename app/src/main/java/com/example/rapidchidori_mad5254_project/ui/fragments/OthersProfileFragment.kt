@@ -1,10 +1,14 @@
 package com.example.rapidchidori_mad5254_project.ui.fragments
 
+import android.app.Dialog
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -17,6 +21,7 @@ import com.example.rapidchidori_mad5254_project.data.models.response.UploadInfo
 import com.example.rapidchidori_mad5254_project.data.models.response.UserInfo
 import com.example.rapidchidori_mad5254_project.databinding.FragmentOthersProfileBinding
 import com.example.rapidchidori_mad5254_project.helper.Constants
+import com.example.rapidchidori_mad5254_project.helper.Constants.USER_ID
 import com.example.rapidchidori_mad5254_project.ui.adapters.UploadsListAdapter
 import com.example.rapidchidori_mad5254_project.ui.interfaces.UploadsClickListener
 import com.example.rapidchidori_mad5254_project.viewmodels.OtherProfileViewModel
@@ -30,6 +35,8 @@ class OthersProfileFragment : Fragment(), UploadsClickListener, View.OnClickList
     private lateinit var mAdapter: UploadsListAdapter
     private var url = ""
     private var uID = ""
+    private var fcmId = ""
+    private lateinit var dialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,23 +63,46 @@ class OthersProfileFragment : Fragment(), UploadsClickListener, View.OnClickList
                 false
             )
         }
+        showLoader()
         val data: UserInfo? = arguments?.getParcelable(Constants.USER_INFO_TABLE_NAME)
         data?.let {
             setDataToViews(it)
         } ?: run {
-            //todo handle null data case
+            viewModel.getUserInfo(arguments?.getString(USER_ID))
         }
     }
 
     fun setUpListeners() {
         binding.civDisplayPicture.setOnClickListener(this)
         binding.btnFollow.setOnClickListener(this)
+        viewModel.getUserInfoLiveData().observe(viewLifecycleOwner) {
+            setDataToViews(it)
+        }
+
         viewModel.isFollowing().observe(viewLifecycleOwner) {
             handleFollowBtn(it)
         }
         viewModel.getUploadsData().observe(viewLifecycleOwner) {
             populateUploadList(it)
         }
+
+        viewModel.getFollowingCountLiveData().observe(viewLifecycleOwner) {
+            updateFollowingCount(it)
+        }
+
+        viewModel.getFollowersCountLiveData().observe(viewLifecycleOwner) {
+            updateFollowersCount(it)
+        }
+    }
+
+    private fun updateFollowersCount(count: Int) {
+        binding.tvFollowingCount.text = count.toString()
+        hideLoader()
+    }
+
+    private fun updateFollowingCount(count: Int) {
+        binding.tvFollowersCount.text = count.toString()
+        viewModel.getFollowersCount()
     }
 
     private fun handleFollowBtn(isFollowing: Boolean?) {
@@ -81,9 +111,11 @@ class OthersProfileFragment : Fragment(), UploadsClickListener, View.OnClickList
         } else {
             binding.btnFollow.text = getString(R.string.follow)
         }
+        viewModel.getFollowingCount()
     }
 
     private fun setDataToViews(userInfo: UserInfo) {
+        fcmId = userInfo.fcmID
         uID = userInfo.userID
         binding.tvUserName.apply {
             text = userInfo.fullName
@@ -96,7 +128,6 @@ class OthersProfileFragment : Fragment(), UploadsClickListener, View.OnClickList
         checkNullAndSetDataToView(binding.tvPhoneValue, userInfo.phoneNo)
         checkNullAndSetDataToView(binding.tvGenderValue, userInfo.gender)
         showDisplayPicture(userInfo.displayPicture)
-        viewModel.getIsFollowing(userInfo.userID)
         viewModel.getUserUploads(userInfo.userID)
     }
 
@@ -137,6 +168,7 @@ class OthersProfileFragment : Fragment(), UploadsClickListener, View.OnClickList
             binding.rvUploads.visibility = View.VISIBLE
             mAdapter.setUploadsData(data)
         }
+        viewModel.getIsFollowing(uID)
     }
 
     override fun onItemClick(data: UploadInfo) {
@@ -149,7 +181,7 @@ class OthersProfileFragment : Fragment(), UploadsClickListener, View.OnClickList
             )
     }
 
-    override fun removeItem(fileId: String) {
+    override fun removeItem(fileId: Double) {
         //no op
     }
 
@@ -165,11 +197,15 @@ class OthersProfileFragment : Fragment(), UploadsClickListener, View.OnClickList
     }
 
     private fun onFollowUnfollowClick() {
+        val isFollowing = binding.btnFollow.text == getString(R.string.follow)
         viewModel.updateConnection(
-            binding.btnFollow.text == getString(R.string.follow),
+            isFollowing,
             uID
         )
-        handleFollowBtn(binding.btnFollow.text == getString(R.string.follow))
+        handleFollowBtn(isFollowing)
+        if (isFollowing) {
+            viewModel.sendConnectionNotification(fcmId)
+        }
     }
 
     private fun openProfilePicture() {
@@ -181,5 +217,23 @@ class OthersProfileFragment : Fragment(), UploadsClickListener, View.OnClickList
                 R.id.action_othersProfileFragment_to_profilePictureFragment,
                 bundle
             )
+    }
+
+    private fun showLoader() {
+        dialog = Dialog(requireActivity())
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setContentView(R.layout.view_loading_dialog)
+            setCancelable(false)
+            setCanceledOnTouchOutside(false)
+            show()
+        }
+    }
+
+    private fun hideLoader() {
+        if (dialog.isShowing) {
+            dialog.dismiss()
+        }
     }
 }

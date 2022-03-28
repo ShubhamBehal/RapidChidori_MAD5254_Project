@@ -2,6 +2,7 @@ package com.example.rapidchidori_mad5254_project.data.repo
 
 import android.net.Uri
 import com.example.rapidchidori_mad5254_project.data.models.response.UploadInfo
+import com.example.rapidchidori_mad5254_project.data.models.ui.WallListInfo
 import com.example.rapidchidori_mad5254_project.helper.Constants.DELAY_2_SEC
 import com.example.rapidchidori_mad5254_project.helper.Constants.FILE_ID
 import com.example.rapidchidori_mad5254_project.helper.Constants.FILE_INFO_TABLE_NAME
@@ -29,6 +30,7 @@ class FilesInfoRepo @Inject constructor() {
     private val database = FirebaseDatabase.getInstance()
     private val databaseReference = database.reference.child(FILE_INFO_TABLE_NAME)
     private val uploadsData: SingleLiveEvent<List<UploadInfo>> = SingleLiveEvent()
+    private val wallListData: SingleLiveEvent<List<WallListInfo>> = SingleLiveEvent()
     private val onDataRemoved: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     fun uploadFileToDB(uri: Uri?, ext: String?, title: String) {
@@ -55,7 +57,7 @@ class FilesInfoRepo @Inject constructor() {
             val user = auth.currentUser
             val fileDb =
                 databaseReference.child(Calendar.getInstance().timeInMillis.toString())
-            fileDb.child(FILE_ID).setValue(Calendar.getInstance().timeInMillis.toString())
+            fileDb.child(FILE_ID).setValue(Calendar.getInstance().timeInMillis)
             fileDb.child(USER_ID).setValue(user?.uid)
             fileDb.child(FILE_TYPE).setValue(fileExt?.replace("/", ""))
             fileDb.child(TITLE).setValue(title)
@@ -71,7 +73,7 @@ class FilesInfoRepo @Inject constructor() {
         return isUploadSuccess
     }
 
-    fun getUploads(id: String = ""): SingleLiveEvent<List<UploadInfo>> {
+    fun getUploads(id: String = "") {
         var userId = id
         val user = auth.currentUser
         if (id.isEmpty()) {
@@ -95,15 +97,13 @@ class FilesInfoRepo @Inject constructor() {
                     //no op
                 }
             })
-
-        return uploadsData
     }
 
     fun getUploadsLiveData(): SingleLiveEvent<List<UploadInfo>> {
         return uploadsData
     }
 
-    fun removeItemFromDatabase(fileId: String) {
+    fun removeItemFromDatabase(fileId: Double) {
         databaseReference.orderByChild(FILE_ID).equalTo(fileId)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -119,5 +119,37 @@ class FilesInfoRepo @Inject constructor() {
 
     fun onDataRemoved(): SingleLiveEvent<Boolean> {
         return onDataRemoved
+    }
+
+    fun getConnectionsUploadData(ids: List<String>) {
+        val data = mutableListOf<WallListInfo>()
+        for (id in ids) {
+            databaseReference.orderByChild(USER_ID).equalTo(id)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (child in dataSnapshot.children) {
+                                val uploadInfo = child.getValue(UploadInfo::class.java)
+                                val wallInfo = WallListInfo()
+                                wallInfo.userId = id
+                                wallInfo.fileId = uploadInfo?.fileId.toString()
+                                wallInfo.fileType = uploadInfo?.fileType.toString()
+                                wallInfo.title = uploadInfo?.title.toString()
+                                wallInfo.url = uploadInfo?.url.toString()
+                                wallInfo.uploadTime = uploadInfo?.fileId!!
+                                data.add(wallInfo)
+                            }
+                            wallListData.value = data
+                        }
+                        wallListData.value = data
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
+        }
+    }
+
+    fun getWallListData(): SingleLiveEvent<List<WallListInfo>> {
+        return wallListData
     }
 }

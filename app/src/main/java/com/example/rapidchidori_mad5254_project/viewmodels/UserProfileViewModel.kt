@@ -3,6 +3,7 @@ package com.example.rapidchidori_mad5254_project.viewmodels
 import androidx.lifecycle.ViewModel
 import com.example.rapidchidori_mad5254_project.data.models.response.UploadInfo
 import com.example.rapidchidori_mad5254_project.data.models.response.UserInfo
+import com.example.rapidchidori_mad5254_project.data.repo.ConnectionRepo
 import com.example.rapidchidori_mad5254_project.data.repo.FilesInfoRepo
 import com.example.rapidchidori_mad5254_project.data.repo.UserInfoRepo
 import com.example.rapidchidori_mad5254_project.helper.SingleLiveEvent
@@ -12,18 +13,27 @@ import javax.inject.Inject
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
     private val userInfoRepo: UserInfoRepo,
-    private val filesInfoRepo: FilesInfoRepo
+    private val filesInfoRepo: FilesInfoRepo,
+    private val connectionRepo: ConnectionRepo
 ) : ViewModel() {
 
-    fun getUserInfoFromFirebase(): SingleLiveEvent<UserInfo> {
-        return userInfoRepo.getUserInfoFromFirebase()
+    fun getUserInfoFromFirebase() {
+        userInfoRepo.getUserInfoFromFirebase()
     }
 
-    fun getUploads(): SingleLiveEvent<List<UploadInfo>> {
-        return filesInfoRepo.getUploads()
+    fun getUserInfoLiveData(): SingleLiveEvent<UserInfo> {
+        return userInfoRepo.getUserInfoLiveData()
     }
 
-    fun removeItemFromDataBase(fileId: String) {
+    fun getUploads() {
+        filesInfoRepo.getUploads()
+    }
+
+    fun getUploadsLiveData(): SingleLiveEvent<List<UploadInfo>> {
+        return filesInfoRepo.getUploadsLiveData()
+    }
+
+    fun removeItemFromDataBase(fileId: Double) {
         filesInfoRepo.removeItemFromDatabase(fileId)
     }
 
@@ -39,4 +49,19 @@ class UserProfileViewModel @Inject constructor(
         return userInfoRepo.isLogoutSuccess()
     }
 
+    fun getFollowingCount() {
+        connectionRepo.getFollowingCount()
+    }
+
+    fun getFollowingCountLiveData(): SingleLiveEvent<Int> {
+        return connectionRepo.getFollowingCountLiveData()
+    }
+
+    fun getFollowersCount() {
+        connectionRepo.getFollowersCount()
+    }
+
+    fun getFollowersCountLiveData(): SingleLiveEvent<Int> {
+        return connectionRepo.getFollowersCountLiveData()
+    }
 }
